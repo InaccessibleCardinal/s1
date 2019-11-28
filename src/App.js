@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import Header from './components/Header';
+import ProductsList from './components/ProductsList';
+import LoadingIndicator from './components/LoadingIndicator';
+import ProductFilters from './components/ProductFilters/';
+import Trapdoor from './components/Trapdoor';
+import {GET_PRODUCTS} from './redux/actions/actionTypes';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function loadingProductsSelector(state) {
+    return state.productsState.loading;
 }
 
-export default App;
+function productsErrorSelector(state) {
+    return state.productsState.error;
+}
+
+export default function App() {
+
+    const loadingProducts = useSelector(loadingProductsSelector);
+    const errorLoadingProducts = useSelector(productsErrorSelector);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch({type: GET_PRODUCTS});
+    }, [dispatch]);
+
+    return (
+        <div>
+            <LoadingIndicator active={loadingProducts} />
+            <Header title={'E-Store'} />
+            <ProductFilters />
+            <ProductsList />
+            {errorLoadingProducts && <Trapdoor error={errorLoadingProducts} />}
+        </div>
+    );
+}
