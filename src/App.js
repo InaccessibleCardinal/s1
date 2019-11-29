@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, Fragment} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Header from './components/Header';
 import ProductsList from './components/ProductsList';
@@ -28,8 +28,12 @@ export default function App() {
         <div>
             <LoadingIndicator active={loadingProducts} />
             <Header title={'E-Store'} />
-            <ProductFilters />
-            <ProductsList />
+            {!loadingProducts && !errorLoadingProducts &&
+                <Fragment>
+                    <ProductFilters />
+                    <ProductsList />
+                </Fragment>
+            }
             {errorLoadingProducts && <Trapdoor error={errorLoadingProducts} />}
         </div>
     );

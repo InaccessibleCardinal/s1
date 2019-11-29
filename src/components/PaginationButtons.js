@@ -15,14 +15,18 @@ export default function PaginationButtons({numberOfProducts, offset, jumpToOffse
         );
     }
     return (
-        <div>{buttonsMarkup}</div>
+        <div style={{display: 'flex'}}>
+            {buttonsMarkup}
+        </div>
     );
 }
 
 export function PaginationButton({value, selected, jumpToOffset, id}) {
     return (
-        <button id={id} onClick={jumpToOffset} style={{backgroundColor: selected ? '#fff' : '#d7d7d7'}}>
-            {value}
-        </button>
+        <div style={{flex: 1}}>
+            <button id={id} onClick={jumpToOffset} style={{backgroundColor: selected ? '#fff' : '#d7d7d7', width: '100%'}}>
+                {value}
+            </button>
+        </div>
     );
 }

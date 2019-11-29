@@ -1,15 +1,13 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {useSelector} from 'react-redux';
-
 import ProductCard from './ProductCard';
 import PaginationButtons from './PaginationButtons';
-import {productsSelector} from '../redux/selectors';
-
+import {/*productsSelector, */filteredProductsSelector} from '../redux/selectors';
 
 
 export default function ProductsList() {
-    
-    const products = useSelector(productsSelector);
+
+    const products = useSelector(filteredProductsSelector);
     const [productsPerPage/*, setProductsPerPage*/] = useState(10);
     const [numberOfProducts, setNumberOfProducts] = useState(0);
     const [offset, setOffset] = useState(0);
@@ -49,6 +47,10 @@ export default function ProductsList() {
             </div>
         );
     }
-    return null;
+    return (
+        <div>
+            <p>No products for the selected filter criteria. Try broadening your query.</p>
+        </div>
+    );
 }
 

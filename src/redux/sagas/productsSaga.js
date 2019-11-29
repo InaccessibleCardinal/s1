@@ -59,5 +59,5 @@ export function makeFilterMatchesMap(fm) {
             acc.brands[currentFilterMatch.filter_value] = true;
         }
         return acc;
-    }, {compatibility: {}, colors: {}, brands: {}});
+    }, {compatibility: {}, colors: {}, brands: {}, productType: {}});
 }

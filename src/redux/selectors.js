@@ -12,17 +12,30 @@ export function productsSelector(state) {
     return state.productsState.products;
 }
 
-export const mySelector = createSelector(
-    productsSelector,
-    products => products.filter(isProductInActiveFilters)
-);
+export const filteredProductsSelector = createSelector([productsSelector, appliedFiltersSelector], combineProductsAndFilters);
 
-function isProductInActiveFilters(product) {
-    let v = false;
-    [/*'Pixel 4', 'Pixel 4 XL'*/ 'Pixel 2'].forEach(value => {
-        if (product.compatibility[value]) {
-            v = true;
+function combineProductsAndFilters(products, filters) {
+    if (filters.length === 0) {
+        return products;
+    } else {
+        return products.filter(p => {
+            return isProductInActiveFilters(p, filters);
+        });
+    }
+}
+
+function isProductInActiveFilters(product, filters) {
+    let isIn = true;
+    filters.forEach(f => {
+        if (f.indexOf('@') === 0) {
+            if (!product.compatibility[f.split(':')[2]]) {
+                isIn = false;
+            }
+        } else { //TODO--productType is broken, no data for it...
+            if (!product[f.split(':')[0].toLowerCase()][f.split(':')[1]]) {
+                isIn = false;
+            }
         }
     });
-    return v;
+    return isIn;
 }
